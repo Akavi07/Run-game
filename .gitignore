@@ -1,33 +1,43 @@
-# Gradle files
-.gradle/
-build/
+import pygame
 
-# Local configuration file (sdk path, etc)
-local.properties
+# Initialize Pygame
+pygame.init()
 
-# Log/OS Files
-*.log
+# Set up the game window
+window_width, window_height = 800, 600
+window = pygame.display.set_mode((window_width, window_height))
+pygame.display.set_caption("Temple Run 2")
 
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output.json
+# Set up the player character
+player_width, player_height = 50, 50
+player_x = (window_width - player_width) // 2
+player_y = window_height - player_height - 10
+player_speed = 5
 
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+def draw_player(x, y):
+    pygame.draw.rect(window, (255, 0, 0), (x, y, player_width, player_height))
 
-# Keystore files
-*.jks
-*.keystore
+# Game loop
+running = True
+while running:
+    window.fill((255, 255, 255))  # Clear the window
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-# Android Profiling
-*.hprof
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        player_x -= player_speed
+    if keys[pygame.K_RIGHT]:
+        player_x += player_speed
+    if keys[pygame.K_UP]:
+        player_y -= player_speed
+    if keys[pygame.K_DOWN]:
+        player_y += player_speed
+
+    draw_player(player_x, player_y)
+    pygame.display.update()
+
+# Quit the game
+pygame.quit()
